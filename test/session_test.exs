@@ -9,11 +9,10 @@ defmodule SessionTest do
     {:ok, session} = Session.start('foo')
     
     room_name = Agent.get(session, & &1.room_name)
-    
     assert 'foo' == room_name 
   end
-  
-  #test "assert session start returns agent with event manager info in it" do
+
+ #test "assert session start returns agent with event manager info in it" do
   # {:ok, session} = Session.start('foo')
     
   #  event_manager = Agent.get(session, & &1.event_manager)
@@ -29,6 +28,13 @@ defmodule SessionTest do
   #  GenEvent.sync_notify(manager, {:hello, :world})
     
     #assert_receive {:hello, :world}
-  #dend
-  
-end
+  #end
+
+  test "assert session attach plugin adds plugin to session handles" do
+    {:ok, session} = Session.start('foo')
+    {:ok, plugin_pid} = Session.attach_plugin(session, "plugin.videoroom")
+    handles = Agent.get(session, & &1.handles)
+    IO.inspect(handles: handles)
+  end
+
+end  
